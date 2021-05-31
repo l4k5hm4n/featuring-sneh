@@ -30,8 +30,7 @@ body {
     padding: 0;
     overflow: hidden;
     overflow-y: hidden;
-    background: url(/static/pics/home_bg.jpg) center;
-    background: linear-gradient(127.45deg, #F69064 23.5%, #D57A5B 61.6%, #7C4244 100%);
+    background: url(/static/pics/magazine_bg.png) center;
     height: 100vh;
     background-size: cover;
     -webkit-tap-highlight-color: transparent;
@@ -239,8 +238,8 @@ div#auth {
 	background: #cdcdcd;
 }
 
-.hard.p18.page.even {
-	background-image:url(../content_images/10.png) !important;
+.hard.p20.page.even {
+	background-image:url(../content_images/11.jpg) !important;
 	background-position: center !important;
 	background-size: cover;
 }
@@ -325,11 +324,11 @@ div#book-zoom.last-active {
 	-o-transition: -webkit-box-shadow 0.5s;
 	-ms-transition: -ms-box-shadow 0.5s;
 
-	-webkit-box-shadow:0 0 20px #a1594d;
-	-moz-box-shadow:0 0 20px #a1594d;
-	-o-box-shadow:0 0 20px #a1594d;
-	-ms-box-shadow:0 0 20px #a1594d;
-	box-shadow:0 0 20px #a1594d;
+	-webkit-box-shadow:0 0 20px #2f2f2f40;
+	-moz-box-shadow:0 0 20px #2f2f2f40;
+	-o-box-shadow:0 0 20px #2f2f2f40;
+	-ms-box-shadow:0 0 20px #2f2f2f40;
+	box-shadow:0 0 20px #2f2f2f40;
 	border-radius: 0 8px 0 8px;
 }
 
@@ -1375,9 +1374,6 @@ body.loading.auth .preloader{
 		display: none !important;
 	}
 
-	body {
-		background: #FFECDB;
-	}
 
 	.mobile__view, .mobile__view.active { 
 		display: block !important;
@@ -1386,6 +1382,10 @@ body.loading.auth .preloader{
 	.preloader {
 		display: none !important
 	};
+
+	body {
+		display: none;
+	}
 
 }
 

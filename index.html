@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Sneh gone Vogue</title>
+    <meta name="description" content="A collection of timeless memories"/>
+    <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/l4k5hman.appspot.com/o/sneh-magazine-thumbnail.jpeg?alt=media&token=08e784fb-ac14-4312-acb2-336b4f7679a7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sneh In Vogue</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/pics/favicon.png" rel="icon" type="image/png">
     <link rel="stylesheet" href="./static/css/docs.css" />
     <script type="text/javascript" src="./static/extras/jquery.min.1.7.js"></script>
     <script type="text/javascript" src="./static/extras/jquery-ui-1.8.20.custom.min.js"></script>
@@ -24,8 +26,8 @@
                 <div ignore="1" class="tabs"><div class="left">  </div> <div class="right"> </div></div>
                 <div class="hard"></div>
                 <div class="hard"></div>
-                <div class="hard p17"></div>
-                <div class="hard p18"></div>
+                <div class="hard p19"></div>
+                <div class="hard p20"></div>
             </div>
             <div id="next--page__overlay" onclick="next_page()">
             </div>
@@ -58,9 +60,9 @@
     
         <div class="magazine__sidebar--center">
     
-            <div onclick="audioMute()" class="magazine__sidebar--item audio">
+           <!-- <div onclick="audioMute()" class="magazine__sidebar--item audio">
                 <img src="static/pics/volume.svg" />
-            </div>
+            </div> -->
             <div class="magazine__sidebar--item fullscreen">
                 <img src="static/pics/fullscreen.svg" />
             </div>
@@ -238,7 +240,7 @@
                 
                     $( "#slider" ).slider({
                         min: 1,
-                        max: 18,
+                        max: 20,
                 
                         start: function(event, ui) {
                             if (!window._thumbPreview) {
@@ -360,7 +362,8 @@
                 
                     // Create the flipbook
 
-                    let music = false;
+                  //  let music = false;
+                    let music = true;
                 
                     flipbook.turn({
                         elevation: 200,
@@ -368,7 +371,7 @@
                         gradients: true,
                         autoCenter: true,
                         duration: 1250,
-                        pages: 18,
+                        pages: 20,
                         when: {
                 
                         turning: function(e, page, view) {
@@ -589,7 +592,7 @@
                     test: Modernizr.csstransforms,
                     yep: ['static/lib/turn.min.js', 'static/css/jquery.ui.css'],
                     nope: ['static/lib/turn.html4.min.js', 'static/css/jquery.ui.html4.css'],
-                    both: ['static/css/docs.css', 'static/js/docs.js'],
+                    both: ['static/js/docs.js'],
                     complete: loadApp
                 });
                 
