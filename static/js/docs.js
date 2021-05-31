@@ -153,7 +153,7 @@ function toggleFullScreen(){
 		  } else if (fullScreenElementNode.msRequestFullscreen) { /* IE11 */
 			fullScreenElementNode.msRequestFullscreen();
 		  }
-		  document.querySelector('.magazine__sidebar--item.fullscreen img').src = "/static/pics/fullscreen_exit.svg"
+		  document.querySelector('.magazine__sidebar--item.fullscreen img').src = "https://firebasestorage.googleapis.com/v0/b/l4k5hman.appspot.com/o/fullscreen_exit.svg?alt=media&token=42a2c8eb-35f0-4938-94d7-bff5e937ffca"
 	}
 	
 	  document.querySelector('.magazine__sidebar--item.fullscreen').classList.toggle('fullscreenActive')
@@ -173,7 +173,7 @@ if(document.querySelector('.magazine__sidebar--item.fullscreen.fullscreenActive'
 			parentDoc.msExitFullscreen();
 		}
 
-		document.querySelector('.magazine__sidebar--item.fullscreen img').src = "/static/pics/fullscreen.svg"
+		document.querySelector('.magazine__sidebar--item.fullscreen img').src = "https://firebasestorage.googleapis.com/v0/b/l4k5hman.appspot.com/o/fullscreen.svg?alt=media&token=0d1de0d3-7136-4ff3-b232-a62d486bcb62"
 
 	}	
 
