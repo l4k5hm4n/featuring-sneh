@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneh In Vogue</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/css/docs.css" />
+    <script type="text/javascript" src="./static/extras/jquery.min.1.7.js"></script>
+    <script type="text/javascript" src="./static/extras/jquery-ui-1.8.20.custom.min.js"></script>
+    <script type="text/javascript" src="./static/extras/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="./static/extras/modernizr.2.5.3.min.js"></script>
+    <script type="text/javascript" src="./static/lib/hash.js"></script>
+ 
+</head>
+<body id="reader" class="loading"> 
+
+    <div id="canvas">
+        <div id="book-zoom">
+            <div id="prev--page__overlay" onclick="previous_page()">
+                <div class="prev__overlay--before"></div>
+            </div>
+            <div class="sample-docs">
+                <div ignore="1" class="tabs"><div class="left">  </div> <div class="right"> </div></div>
+                <div class="hard"></div>
+                <div class="hard"></div>
+                <div class="hard p17"></div>
+                <div class="hard p18"></div>
+            </div>
+            <div id="next--page__overlay" onclick="next_page()">
+            </div>
+            <div id="last--page__overlay" onclick="last_page()">
+            </div>
+        </div>
+    
+        <div id="magazine__sidebar">
+    
+        <div class="magazine__sidebar--top">
+
+            <div class="user__profile">
+                <div class="user__profile--image">
+                    <img src="./static/pics/profile.png" />
+                </div>
+               <!-- <div class="user__profile--dropdown">
+                    <span onclick="logout()">Log Out</span>
+                </div> -->
+            </div>
+             <!--
+            <div class="magazine__sidebar--item links">
+            </div>  -->
+
+            <div class="page__links--modal">
+                    <div class="page__links--list">
+                    </div>
+            </div>       
+        
+        </div>
+    
+        <div class="magazine__sidebar--center">
+    
+            <div onclick="audioMute()" class="magazine__sidebar--item audio">
+                <img src="static/pics/volume.svg" />
+            </div>
+            <div class="magazine__sidebar--item fullscreen">
+                <img src="static/pics/fullscreen.svg" />
+            </div>
+            <!--	
+            <div class="magazine__sidebar--item">
+                <img src="/pics/sections.svg" />
+            </div>
+            <div class="magazine__sidebar--item">
+                <img src="/pics/download.svg" />
+            </div>
+            <div class="magazine__sidebar--item border__top">
+                <img src="/pics/previous.svg" />
+            </div>
+            <div class="magazine__sidebar--item">
+                <img src="/pics/next.svg" />
+            </div>  -->
+            <div class="magazine__sidebar--item pagination">
+                <span class="sidebar__item--title">
+                    PAGE
+                </span>
+                <div class="sidebar__item--currentPage"><input type="text" /></div>
+                <div class="sidebar__item--totalPages"></div>
+            </div>
+            <div class="magazine__sidebar--item info">
+                <img src="static/pics/info.svg" />
+            </div>
+            <div class="magazine__sidebar--item sidebar--hide">
+                <img src="static/pics/hide.svg" />
+            </div>
+        </div>
+    
+        </div>
+    
+    
+    <!--	<div id="slider-bar" class="turnjs-slider">
+            <div id="slider"></div>
+        </div> -->
+    </div>
+
+    <div id="info__modal">
+        <div class="modal__container">
+            <div class="modal__close"><img src="./static/pics/close.svg"></div>
+            <div class="modal__title">
+                <h4>Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal__content">
+                <div class="modal__shortcode">
+                    <div class="modal__shortcuts--left">
+                        Next Page
+                    </div>
+                    <div class="modal__shortcuts--right">
+                        <img src="./static/pics/arrow_right.svg" />
+                    </div>
+                </div>
+
+                <div class="modal__shortcode">
+                    <div class="modal__shortcuts--left">
+                        Previous Page
+                    </div>
+                    <div class="modal__shortcuts--right">
+                        <img src="./static/pics/arrow_right.svg" style=" transform: rotate(180deg); " />
+                    </div>
+                </div>
+
+                <div class="modal__shortcode">
+                    <div class="modal__shortcuts--left">
+                       Fullscreen
+                    </div>
+                    <div class="modal__shortcuts--right">
+                        <span>F</span>
+                    </div>
+                </div>
+
+                <div class="modal__shortcode">
+                    <div class="modal__shortcuts--left">
+                       Mute
+                    </div>
+                    <div class="modal__shortcuts--right">
+                        <span>M</span>
+                    </div>
+                </div>
+
+                <div class="modal__shortcode">
+                    <div class="modal__shortcuts--left">
+                       Restart From First Page
+                    </div>
+                    <div class="modal__shortcuts--right">
+                        <span>R</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+    
+        function next_page() {
+            $('.sample-docs').turn("next");
+        }
+
+        function last_page() {
+            $('.sample-docs').turn('page', $(".sample-docs").turn('pages')-1);
+        }
+    
+        function previous_page() {
+            $('.sample-docs').turn("previous");
+
+            document.querySelector('#prev--page__overlay').style.display = 'none'
+
+            setTimeout( () => {
+                document.querySelector('#prev--page__overlay').style.display = 'block'  
+            } , 500)
+        }
+    
+        let audio = new Audio('static/flip_sound.mp3');
+        let audio2 = new Audio('static/flip_sound1.mp3');
+        let bg_music = new Audio('static/bg_music.mp3');
+        let fullScreenNode = document.querySelector('html')
+        //let fullScreenNode = window.parent.document.querySelector('html');
+
+        let links
+
+                function loadApp() {
+    
+                    var flipbook = $('.sample-docs');
+                
+                    // Check if the CSS was already loaded
+                    
+                    if (flipbook.width()==0 || flipbook.height()==0) {
+                        setTimeout(loadApp, 10);
+                        return;
+                    }
+                
+                    // Mousewheel
+                
+                    $('#book-zoom').mousewheel(function(event, delta, deltaX, deltaY) {
+                
+                        var data = $(this).data(),
+                            step = 10,
+                            flipbook = $('.sample-docs'),
+                            actualPos = $('#slider').slider('value')*step;
+                
+                        if (typeof(data.scrollX)==='undefined') {
+                            data.scrollX = actualPos;
+                            data.scrollPage = flipbook.turn('page');
+                        }
+                
+                        data.scrollX = Math.min($( "#slider" ).slider('option', 'max')*step,
+                            Math.max(0, data.scrollX + deltaX));
+                
+                        var actualView = Math.round(data.scrollX/step),
+                            page = Math.min(flipbook.turn('pages'), Math.max(1, actualView*2 - 2));
+                
+                        if ($.inArray(data.scrollPage, flipbook.turn('view', page))==-1) {
+                            data.scrollPage = page;
+                            flipbook.turn('page', page);
+                        }
+                
+                        if (data.scrollTimer)
+                            clearInterval(data.scrollTimer);
+                        
+                        data.scrollTimer = setTimeout(function(){
+                            data.scrollX = undefined;
+                            data.scrollPage = undefined;
+                            data.scrollTimer = undefined;
+                        }, 1000);
+                
+                    });
+                
+                    // Slider
+            
+                    // Fetch page links
+                
+                    $( "#slider" ).slider({
+                        min: 1,
+                        max: 18,
+                
+                        start: function(event, ui) {
+                            if (!window._thumbPreview) {
+                                _thumbPreview = $('<div />', {'class': 'thumbnail'}).html('<div></div>');
+                                setPreview(ui.value);
+                                _thumbPreview.appendTo($(ui.handle));
+                            } else
+                                setPreview(ui.value);
+                
+                            moveBar(false);
+                        },
+                
+                        slide: function(event, ui) {
+                            setPreview(ui.value);
+                        },
+                
+                        stop: function() {
+                            if (window._thumbPreview)
+                                _thumbPreview.removeClass('show');
+                            
+                            $('.sample-docs').turn('page', Math.max(1, $(this).slider('value')*2 - 2));
+                        }
+                    });
+                
+                
+                    // URIs
+                    
+                    Hash.on('^page\/([0-9]*)$', {
+                        yep: function(path, parts) {
+                            var page = parts[1];
+                
+                            if (page!==undefined) {
+                                if ($('.sample-docs').turn('is'))
+                                    $('.sample-docs').turn('page', page);
+                            }
+                
+                        },
+                        nop: function(path) {
+                
+                            if ($('.sample-docs').turn('is'))
+                                $('.sample-docs').turn('page', 1);
+                        }
+                    });
+                
+                    // Arrows
+                
+                    $(document).keydown(function(e){
+                
+                        var previous = 37, next = 39; fullScreen = 70; mute = 77; restart = 82;
+
+                    switch (e.keyCode) {
+                        case previous:
+                        setTimeout( () => {
+                            $('.sample-docs').turn('previous');
+                        }, 100)           
+                        break;
+
+                        case next:
+                            
+                            $('.sample-docs').turn('next');
+            
+                        break;
+
+                        case fullScreen:
+                        toggleFullScreen();
+                        return;
+                        debugger;
+                        if (fullScreenNode.requestFullscreen) {
+                            fullScreenNode.requestFullscreen();
+                          } else if (fullScreenNode.webkitRequestFullscreen) { /* Safari */
+                            fullScreenNode.webkitRequestFullscreen();
+                          } else if (fullScreenNode.msRequestFullscreen) { /* IE11 */
+                            fullScreenNode.msRequestFullscreen();
+                          }
+                    
+                          document.querySelector('.magazine__sidebar--item.fullscreen img').src = "static/pics/fullscreen_exit.svg"
+                    
+                         fullScreenExit()
+                    
+                          document.querySelector('.magazine__sidebar--item.fullscreen').classList.toggle('fullscreenActive')
+                            
+            
+                        break;
+                        case mute:
+                            
+                        audioMute()
+            
+                        break;
+
+                        case restart:
+
+                        $('.sample-docs').turn('page', 1);
+
+                        break;
+                    }
+
+                    function fullScreenExit() {
+
+                        if(document.querySelector('.magazine__sidebar--item.fullscreen.fullscreenActive')) {
+                        
+                                if (fullScreenNode.exitFullscreen) {
+                                    document.exitFullscreen();
+                                } else if (document.webkitExitFullscreen) { /* Safari */
+                                    document.webkitExitFullscreen();
+                                } else if (document.msExitFullscreen) { /* IE11 */
+                                    document.msExitFullscreen();
+                                }
+                        
+                                document.querySelector('.magazine__sidebar--item.fullscreen img').src = "static/pics/fullscreen.svg"
+                        
+                            }	
+                        
+                            
+                        
+                        }
+                        
+                
+                    });
+                
+                    // Create the flipbook
+
+                    let music = false;
+                
+                    flipbook.turn({
+                        elevation: 200,
+                        acceleration: false,
+                        gradients: true,
+                        autoCenter: true,
+                        duration: 1250,
+                        pages: 18,
+                        when: {
+                
+                        turning: function(e, page, view) {
+                            
+                            var book = $(this),
+                            currentPage = book.turn('page'),
+                            pages = book.turn('pages');
+                
+                            if (currentPage>3 && currentPage<pages-3) {
+                                if (page==1) {
+                                    book.turn('page', 2).turn('stop').turn('page', page);
+                                    e.preventDefault();
+                                    return;
+                                } else if (page==pages) {
+                                    book.turn('page', pages-1).turn('stop').turn('page', page);
+                                    e.preventDefault();
+                                    return;
+                                }
+                            } else if (page>3 && page<pages-1) {
+                                if (currentPage==1) {
+                                    book.turn('page', 2).turn('stop').turn('page', page);
+                                    e.preventDefault();
+                                    return;
+                                    } 
+                                        else if (currentPage==pages) {
+                                        book.turn('page', pages-1).turn('stop').turn('page', page);
+                                        e.preventDefault();
+                                        return;
+                                        }
+                            }
+                            
+                            // show single page for the first and last slide
+                  
+                            if (page==pages-1 || page==pages-2) {
+                                document.querySelector('#canvas').classList.remove('last-active')	
+                        
+                            }
+                
+                            if (page==pages) {
+                                document.querySelector('#canvas').classList.add('last-active')   
+                            }
+
+                            else if ( page !== pages && document.querySelector('#canvas').classList.contains('last-active')) {
+                                document.querySelector('#canvas').classList.remove('last-active');
+                            }
+            
+                            // page flip sounds
+            
+                            if( page == 1 || page ==2 || page==pages || page==pages-1) {
+                                if(!audio2.paused) audio2.pause() ;
+                                audio2.currentTime = 0;
+                                audio2.play();
+                            }
+            
+                            else {
+            
+                                if(!audio.paused) audio.pause();
+                                audio.currentTime = 0;
+                                audio.play();
+            
+                            }
+                
+                            Hash.go('page/'+page).update();
+                
+                            if (page==1 || page==pages) {
+                                $('.sample-docs .tabs').hide();
+                                document.querySelector('#prev--page__overlay').style.display = 'none'
+                            }
+
+                            let pageNo = $(".sample-docs").turn("page")
+
+                            loadPage(pageNo)
+
+                            if(!music) {
+                                bg_music.volume = 0.4;
+                                bg_music.loop = true;
+                                bg_music.play();
+                            }  
+                            
+                            music = true;
+                
+                        },
+                
+                        turned: function(e, page, view) {
+                
+                            var book = $(this);
+                
+                            $('#slider').slider('value', getViewNumber(book, page));
+                
+                            if (page!=1 && page!=book.turn('pages'))
+                                $('.sample-docs .tabs').fadeIn(500);
+                            else
+                                $('.sample-docs .tabs').hide();
+                
+                            book.turn('center');
+                            updateTabs();
+            
+                            currentSlide = Math.floor(1 + $(".sample-docs").turn("page") - $(".sample-docs").turn("page")/2)
+                
+                            document.querySelector('.sidebar__item--currentPage input').value  = currentSlide
+                       
+                            // first and last flip previous overlay
+            
+                            if (page>1 && page<book.turn('pages')) {
+                                document.querySelector('#prev--page__overlay').style.display = 'block'
+                            }
+                
+                            else {
+                                document.querySelector('#prev--page__overlay').style.display = 'none'
+                            }
+            
+                            if(links) {
+                                document.querySelector('.page__links--list').innerHTML = ''
+
+                                if(document.querySelector('.page__links--count')) {
+                                    document.querySelector('.magazine__sidebar--item.links').innerHTML = ''
+                                }
+                                
+                                if(links[currentSlide] != null) {
+
+                                    if(document.querySelector('.magazine__sidebar--item.linksInactive')) {
+
+                                        document.querySelector('.magazine__sidebar--item.linksInactive').classList.add('links')
+                                        document.querySelector('.magazine__sidebar--item').classList.remove('linksInactive')
+
+                                    }
+
+                                    links[currentSlide].forEach( (item, index) => {
+                                    
+                                        document.querySelector('.page__links--list').insertAdjacentHTML('beforeend', 
+                                        `
+                                        <a class="${item[2]}" target="_blank" href="${item[1]}"><span>${item[0]}</span></a>
+                                        `
+                                        )
+
+                                        document.querySelector('.magazine__sidebar--item.links').insertAdjacentHTML('beforeend', 
+                                        `
+                                        <div class="page__links--count">${links[currentSlide].length}</div>
+                                        `
+                                        )
+            
+                                } )
+                                }
+
+                                else if (document.querySelector('.magazine__sidebar--item.links')){
+                                    document.querySelector('.magazine__sidebar--item.links').classList.remove('links')
+                                    document.querySelector('.magazine__sidebar--item').classList.add('linksInactive')
+                                }
+
+                            }
+                
+                        },
+                
+                        start: function(e, pageObj) {
+                    
+                            moveBar(true);
+                
+                        },
+                
+                        end: function(e, pageObj) {
+                        
+                            var book = $(this);
+                
+                            setTimeout(function() {
+                                $('#slider').slider('value', getViewNumber(book));
+                            }, 1);
+                
+                            moveBar(false);
+                
+                        },
+                
+                        missing: function (e, pages) {
+                
+                            for (var i = 0; i < pages.length; i++)
+                                addPage(pages[i], $(this));
+                
+                        }
+                    }
+
+
+                    }).turn('page', 1);
+                
+                
+                    $('#slider').slider('option', 'max', numberOfViews(flipbook));
+                
+                    flipbook.addClass('animated');
+                
+                
+                    // Show canvas
+                
+                    $('#canvas').css({visibility: 'visible'});
+                
+                    document.querySelector('.sidebar__item--currentPage input').value  =  Math.floor(1 + $(".sample-docs").turn("page") - $(".sample-docs").turn("page")/2)
+                    document.querySelector('.sidebar__item--totalPages').innerHTML  = Math.floor($(".sample-docs").turn("pages")/2)+1
+                
+                    document.querySelector('.sidebar__item--currentPage input').onkeyup = (event) => { 
+                        event.preventDefault();
+                    /*  var theEvent = event || window.event;
+                    let key = document.querySelector('.sidebar__item--currentPage input').value
+                
+                    console.log(key)
+                    var regex = /[0-9]|\./;
+                    if( !regex.test(key) ) {
+                        event.returnValue = false;
+                      if(event.preventDefault) event.preventDefault();
+                    }
+                    let currentPage = $(".sample-docs").turn("page")
+                    $(".sample-docs").turn("page", document.querySelector('.sidebar__item--currentPage input').value)  */
+                }
+                
+                }
+                
+                // Hide canvas
+                
+                $('#canvas').css({visibility: 'hidden'});
+                
+                yepnope({
+                    test: Modernizr.csstransforms,
+                    yep: ['static/lib/turn.min.js', 'static/css/jquery.ui.css'],
+                    nope: ['static/lib/turn.html4.min.js', 'static/css/jquery.ui.html4.css'],
+                    both: ['static/css/docs.css', 'static/js/docs.js'],
+                    complete: loadApp
+                });
+                
+                document.querySelector('.magazine__sidebar--item.sidebar--hide img').onclick = () => {
+                    document.querySelector('#magazine__sidebar').classList.toggle('hidden')
+                }
+
+                let hideissue
+                                
+                document.querySelector('.sidebar__item--currentPage input').onkeydown = (event) => {
+                    
+                    let key = event.keyCode || event.charCode;
+                    
+                    if( key == 8 || key == 46 || key == 37 || key == 39 ) {
+                        event.returnValue = true;
+                        $(".sample-docs").turn("disable", true);
+                        if(!hideissue) {
+                            setTimeout( () => {
+                                $(".sample-docs").turn("disable", false);
+                                hideissue = true
+                            } , 501 )
+                        }
+                        
+                    }
+                
+                    else {
+                        let inputKey= event.key
+                        let regex = new RegExp("^[0-9]")
+                        if( inputKey && !regex.test(inputKey) ) {
+                            event.preventDefault
+                            event.returnValue = false;
+                        }
+                    }
+
+                    hideissue = false
+                
+                    let inputValue = document.querySelector('.sidebar__item--currentPage input').value
+                    let lastInputValuePage = Math.floor($(".sample-docs").turn("pages")/2)+1
+                
+                    if ( key == 38 && inputValue < 149 && +document.querySelector('.sidebar__item--currentPage input').value*2 <= 296) {
+                        $(".sample-docs").turn("disable", false);
+                        $(".sample-docs").turn("page", +document.querySelector('.sidebar__item--currentPage input').value*2)
+                        document.querySelector('.sidebar__item--currentPage input').value = +inputValue + 1
+                    }
+
+                    // console.log(lastInputValuePage)
+                    // console.log(inputValue)
+                    if ( key == 40 && inputValue > 1 && inputValue !== lastInputValuePage){
+                        $(".sample-docs").turn("disable", false);
+                        $(".sample-docs").turn("page", (+document.querySelector('.sidebar__item--currentPage input').value -2)*2 +1)
+                        document.querySelector('.sidebar__item--currentPage input').value = +inputValue - 1
+                    }
+
+                    else if ( key == 40 && inputValue == lastInputValuePage) {
+                        $(".sample-docs").turn("page", (lastInputValuePage))
+                    }
+                
+                }
+                
+                document.querySelector('.sidebar__item--currentPage input').onfocusout = (event) => {
+                    $(".sample-docs").turn("disable", false);
+                    
+                }
+                
+                document.querySelector('.sidebar__item--currentPage input').oninput = (event) => {
+                
+                    let inputValue = document.querySelector('.sidebar__item--currentPage input').value;
+                    let totalPages = Math.floor($(".sample-docs").turn("pages")/2)
+                    if(inputValue > 0 && inputValue <= totalPages ) {
+                        $(".sample-docs").turn("disable", false);
+                        $(".sample-docs").turn("page", 2*inputValue -1)
+                    }
+
+                    else if(inputValue > 0 && inputValue == totalPages+1) {
+                        $(".sample-docs").turn("page", 2*inputValue - 2)
+                    }
+                }
+            
+
+    document.querySelector('#reader').onload = () => {
+        setTimeout( () => {
+            document.querySelector('#reader').classList.remove('loading')
+        } , 1000)
+    };
+
+    </script>
+
+</body>
+</html>

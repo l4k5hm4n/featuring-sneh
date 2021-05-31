@@ -1,0 +1,20 @@
+<script>
+    let pageNo = Math.floor(1 + $(".sample-docs").turn("page") - $(".sample-docs").turn("page")/2)
+    if(document.querySelector(`.page.p${(pageNo*2)-1}`)) {
+        document.querySelector(`.page.p${(pageNo*2)-1}`).innerHTML = ''
+
+        document.querySelector(`.page.p${(pageNo*2)-1}`).insertAdjacentHTML('afterbegin', `
+        <div class="magazine--page__body" style="background-image: url(/static/content_images/${pageNo}.png);">
+        </div>
+        `)
+    }
+
+    if(document.querySelector(`.page.p${(pageNo*2)+1}`)) {
+        document.querySelector(`.page.p${(pageNo*2)+1}`).innerHTML = ''
+        document.querySelector(`.page.p${(pageNo*2)+1}`).insertAdjacentHTML('afterbegin', `
+        <div class="magazine--page__body" style="background-image: url(/static/content_images/${pageNo+1}.png);">
+        </div>
+        `)
+    }
+
+</script>
