@@ -30,7 +30,7 @@ body {
     padding: 0;
     overflow: hidden;
     overflow-y: hidden;
-    background: url(/static/pics/magazine_bg.png) center;
+    background: url(https://firebasestorage.googleapis.com/v0/b/l4k5hman.appspot.com/o/magazine_bg.png?alt=media&token=7539e8b3-75a4-4dfb-8e4a-c65ba1ecb566) center;
     height: 100vh;
     background-size: cover;
     -webkit-tap-highlight-color: transparent;
