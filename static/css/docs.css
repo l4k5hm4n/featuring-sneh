@@ -1370,6 +1370,16 @@ body.loading.auth .preloader{
 
 @media (max-width: 1140px) {
 
+	html {
+		background-size: cover;
+		background-repeat: no-repeat;
+		background: url(https://firebasestorage.googleapis.com/v0/b/l4k5hman.appspot.com/o/mobile_bg.png?alt=media&token=9fd7f43a-a12c-4ff3-917c-f7771bf85609);
+	}
+
+	#reader {
+		display: none;
+	}
+
 	iframe, .user_feedback, #auth {
 		display: none !important;
 	}
